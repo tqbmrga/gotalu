@@ -1,0 +1,51 @@
+version: '3.4'
+
+services:  
+
+  web:
+    container_name: web
+    build:
+      context: ./web/
+      dockerfile: Dockerfile
+    networks:
+       - overlay
+    ports:
+      - target: 3000      # port in contaner
+        published: 8081     # port in local
+        protocol: tcp     #
+        mode: ingress     #
+    volumes:         
+      - ./web/:/usr/src/app/
+    stdin_open: true
+    tty: true
+
+  web-api:
+    container_name: web-api
+    build:
+      context: ./web-api/
+      dockerfile: Dockerfile
+    networks:
+       - overlay
+    ports:
+      - target: 5000      # port in contaner
+        published: 8080   # port in local
+        protocol: tcp     #
+        mode: ingress     #
+    volumes:         
+      - ./web-api/:/usr/src/app/
+    stdin_open: true
+    tty: true    
+  
+  # Database management in a single PHP file
+  # https://www.adminer.org/
+  # adminer:
+  #   image: adminer:latest
+  #   container_name: adminer
+  #   networks:
+  #      - overlay
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  
+networks:
+  overlay:
