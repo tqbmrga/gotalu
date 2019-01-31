@@ -1,6 +1,6 @@
 # create new source // installed nodejs
 npm install -g create-react-app
-npx create-react-app web-app
+npx create-react-app web
 # npm install nodemon --save-dev
 # npm install nodemon -g
 
