@@ -34,8 +34,14 @@ services:
     volumes:         
       - ./web-api/:/usr/src/app/
     stdin_open: true
-    tty: true    
-  
+    tty: true
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'
+
   # Database management in a single PHP file
   # https://www.adminer.org/
   # adminer:
