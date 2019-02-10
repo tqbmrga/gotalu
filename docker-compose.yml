@@ -11,7 +11,7 @@ services:
        - overlay
     ports:
       - target: 3000      # port in contaner
-        published: 8081     # port in local
+        published: 8000   # port in local
         protocol: tcp     #
         mode: ingress     #
     volumes:         
@@ -27,8 +27,8 @@ services:
     networks:
        - overlay
     ports:
-      - target: 5000      # port in contaner
-        published: 8080   # port in local
+      - target: 3000      # port in contaner
+        published: 8001   # port in local
         protocol: tcp     #
         mode: ingress     #
     volumes:         
