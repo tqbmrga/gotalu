@@ -2,37 +2,53 @@ version: '3.4'
 
 services:  
 
-  web:
-    container_name: web
-    build:
-      context: ./web/
-      dockerfile: Dockerfile
-    networks:
-       - overlay
-    ports:
-      - target: 3000      # port in contaner
-        published: 8000   # port in local
-        protocol: tcp     #
-        mode: ingress     #
-    volumes:         
-      - ./web/:/usr/src/app/
-    stdin_open: true
-    tty: true
+  # web:
+  #   container_name: web
+  #   build:
+  #     context: ./web/
+  #     dockerfile: Dockerfile
+  #   networks:
+  #      - overlay
+  #   ports:
+  #     - target: 3000      # port in contaner
+  #       published: 8000   # port in local
+  #       protocol: tcp     #
+  #       mode: ingress     #
+  #   volumes:         
+  #     - ./web/:/usr/src/app/
+  #   stdin_open: true
+  #   tty: true
 
-  web-api:
-    container_name: web-api
+  # web-api:
+  #   container_name: web-api
+  #   build:
+  #     context: ./web-api/
+  #     dockerfile: Dockerfile
+  #   networks:
+  #      - overlay
+  #   ports:
+  #     - target: 3000      # port in contaner
+  #       published: 8001   # port in local
+  #       protocol: tcp     #
+  #       mode: ingress     #
+  #   volumes:         
+  #     - ./web-api/:/usr/src/app/
+  #   stdin_open: true
+  #   tty: true
+  
+  mongochat:
+    container_name: mongochat    
     build:
-      context: ./web-api/
-      dockerfile: Dockerfile
+      context: ./mongochat/
+      dockerfile: Dockerfile    
     networks:
-       - overlay
+      - overlay
     ports:
-      - target: 3000      # port in contaner
-        published: 8001   # port in local
-        protocol: tcp     #
-        mode: ingress     #
+      - "4000:4000"
     volumes:         
-      - ./web-api/:/usr/src/app/
+      - ./mongochat/:/usr/src/app/
+    links:
+      - mongo    
     stdin_open: true
     tty: true
 
@@ -41,7 +57,7 @@ services:
     image: mongo
     ports:
       - '27017:27017'
-
+      
   # Database management in a single PHP file
   # https://www.adminer.org/
   # adminer:
