@@ -48,6 +48,7 @@
             var textarea = element('textarea');
             var username = element('username');
             var clearBtn = element('clear');
+            var room = '2';
 
             // Set default status
             var statusDefault = status.textContent;
@@ -71,11 +72,11 @@
                 console.log('Connected to socket...');
 
             // Connected to chat room
-                socket.emit('connectRoom', {
-                    status:"room",
-                    name:username.value,                    
-                    room:'012abcXYZ1'
-                });
+            socket.emit('connectRoom', {
+                status:"room",
+                name:username.value,
+                room:room
+            });
 
                 // Handle Output
                 socket.on('output', function(data){
@@ -110,7 +111,7 @@
                         socket.emit('input', {
                             name:username.value,
                             message:textarea.value,
-                            room:'012abcXYZ1'
+                            room:room
                         });
 
                         event.preventDefault();

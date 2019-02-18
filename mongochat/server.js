@@ -31,8 +31,7 @@ mongo.connect('mongodb://'+process.env.DB_HOST+'/mongochat', function(err, db){
                 }
 
                 // Emit the messages
-                socket.emit('output', res);
-                //io.to('some room').emit('output',res);
+                socket.emit('output', res);                
             });
         });        
 
@@ -43,11 +42,11 @@ mongo.connect('mongodb://'+process.env.DB_HOST+'/mongochat', function(err, db){
             let message = data.message;
             let room = data.room;
             //Connect room
-            socket.join(room);
+            //socket.join(room);
             // Check for name and message
             if(name == '' || message == ''){
                 // Send error status
-                sendStatus('Please enter a name and message');
+                sendStatus('Please enter a name and message',room);
             } else {
                 // Insert message
                 chat.insert({room :room, name: name, message: message, date: Date.now()}, function(){
@@ -58,7 +57,7 @@ mongo.connect('mongodb://'+process.env.DB_HOST+'/mongochat', function(err, db){
                     sendStatus({
                         message: 'Message sent',
                         clear: true
-                    });
+                    },room);
                 });
             }
         });
