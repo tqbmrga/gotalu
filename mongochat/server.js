@@ -21,17 +21,22 @@ mongo.connect('mongodb://'+process.env.DB_HOST+'/mongochat', function(err, db){
             io.to(room).emit('status',s);
         }
 
-        // Get chats from mongo collection
-        chat.find().limit(100).sort({_id:1}).toArray(function(err, res){
-            if(err){
-                throw err;
-            }
+        socket.on('connectRoom', function(data){
+            //join room
+            socket.join(data.room);
+            // Get chats from mongo collection            
+            chat.find({"room" : data.room}).limit(100).sort({_id:1}).toArray(function(err, res){
+                if(err){
+                    throw err;
+                }
 
-            // Emit the messages
-            socket.emit('output', res);
-            //io.to('some room').emit('output',res);
-        });
+                // Emit the messages
+                socket.emit('output', res);
+                //io.to('some room').emit('output',res);
+            });
+        });        
 
+      
         // Handle input events
         socket.on('input', function(data){
             let name = data.name;

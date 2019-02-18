@@ -70,6 +70,13 @@
             if(socket !== undefined){
                 console.log('Connected to socket...');
 
+            // Connected to chat room
+                socket.emit('connectRoom', {
+                    status:"room",
+                    name:username.value,                    
+                    room:'012abcXYZ1'
+                });
+
                 // Handle Output
                 socket.on('output', function(data){
                     console.log(data);
