@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
-import { checkAuth, demo } from '../utils/Authenticated';
+import { checkAuth } from '../utils/Authenticated';
+import Login from './login/Index';
 
 // import { Provider } from 'react-redux';
 // import store from './store';
@@ -37,7 +38,7 @@ class App extends Component {
               {/* <Navbar /> */}
                 <Route exact path="/" component={ Home } />                
                 <Route exact path="/register" component={ Register } />
-                <Route exact path="/login" component={ Login } /> 
+                <Route exact path="/login" component={ LoginPage } /> 
                 <PrivateRoute path="/protected" component={Protected} />
                 {/* <Route path="*" component={NotFound} /> */}
             </div>
@@ -46,6 +47,14 @@ class App extends Component {
     );
   }
 }
+
+const Protected = () => <h3>Protected</h3>;
+const Home = () =>      <h3>Home</h3>;
+const Register = () =>  <h3>Register</h3>;
+const LoginPage = () => <Login/>;//<Loginpage />;
+// const NotFound = () =>  <h3>NotFound</h3>;
+
+//console.log(<Login />);
 
 // if isAuthenticated: false goto login pages
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -65,12 +74,5 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-
-
-const Protected = () => <h3>Protected</h3>;
-const Home = () =>      <h3>Home</h3>;
-const Register = () =>  <h3>Register</h3>;
-const Login = () =>     <h3>Login</h3>;
-// const NotFound = () =>  <h3>NotFound</h3>;
 
 export default App;
