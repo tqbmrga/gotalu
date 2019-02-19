@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-//import { Provider } from 'react-redux';
+
+import { checkAuth, demo } from '../utils/Authenticated';
+
+// import { Provider } from 'react-redux';
 // import store from './store';
 // import jwt_decode from 'jwt-decode';
 // import setAuthToken from './setAuthToken';
@@ -36,31 +39,20 @@ class App extends Component {
                 <Route exact path="/register" component={ Register } />
                 <Route exact path="/login" component={ Login } /> 
                 <PrivateRoute path="/protected" component={Protected} />
+                {/* <Route path="*" component={NotFound} /> */}
             </div>
           </Router>
         // </Provider>
     );
   }
 }
-// call api check isAuthenticated true || false
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
-};
 
 // if isAuthenticated: false goto login pages
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      fakeAuth.isAuthenticated ? (
+      checkAuth.isAuthenticated ? (
         <Component {...props} />
       ) : (
         <Redirect
@@ -79,6 +71,6 @@ const Protected = () => <h3>Protected</h3>;
 const Home = () =>      <h3>Home</h3>;
 const Register = () =>  <h3>Register</h3>;
 const Login = () =>     <h3>Login</h3>;
-
+// const NotFound = () =>  <h3>NotFound</h3>;
 
 export default App;
