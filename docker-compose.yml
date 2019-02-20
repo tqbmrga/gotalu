@@ -19,22 +19,22 @@ services:
   #   stdin_open: true
   #   tty: true
 
-  # web-api:
-  #   container_name: web-api
-  #   build:
-  #     context: ./web-api/
-  #     dockerfile: Dockerfile
-  #   networks:
-  #      - overlay
-  #   ports:
-  #     - target: 3000      # port in contaner
-  #       published: 8001   # port in local
-  #       protocol: tcp     #
-  #       mode: ingress     #
-  #   volumes:         
-  #     - ./web-api/:/usr/src/app/
-  #   stdin_open: true
-  #   tty: true
+  web-api:
+    container_name: web-api
+    build:
+      context: ./web-api/
+      dockerfile: Dockerfile
+    networks:
+       - overlay
+    ports:
+      - target: 3000      # port in contaner
+        published: 8001   # port in local
+        protocol: tcp     #
+        mode: ingress     #
+    volumes:         
+      - ./web-api/:/usr/src/app/
+    stdin_open: true
+    tty: true
   
   mongochat:
     container_name: mongochat    

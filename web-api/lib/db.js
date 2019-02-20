@@ -1,11 +1,17 @@
-'use strict';
-const mysql = require('mysql');
+var MongoClient = require( 'mongodb' ).MongoClient;
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "nodejs_api"
-});
+var _db;
 
-module.exports = db
+module.exports = {
+
+  connectToServer: function( callback ) {
+    MongoClient.connect( "mongodb://localhost:27017/marankings", function( err, db ) {
+      _db = db;
+      return callback( err );
+    } );
+  },
+
+  getDb: function() {
+    return _db;
+  }
+};

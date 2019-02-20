@@ -3,7 +3,7 @@ const io = require('socket.io').listen(4000).sockets;
 require('dotenv').load();
 
 // Connect to mongo
-mongo.connect('mongodb://'+process.env.DB_HOST+'/mongochat', function(err, db){
+mongo.connect('mongodb://'+process.env.DB_MONGO_HOST+'/mongochat', function(err, db){
     if(err){
         throw err;
     }
