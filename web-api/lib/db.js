@@ -1,11 +1,11 @@
-var MongoClient = require( 'mongodb' ).MongoClient;
-
+const MongoClient = require( 'mongodb' ).MongoClient;
+require('dotenv').load()
 var _db;
 
 module.exports = {
 
   connectToServer: function( callback ) {
-    MongoClient.connect( "mongodb://localhost:27017/marankings", function( err, db ) {
+    MongoClient.connect( 'mongodb://'+process.env.DB_MONGO_HOST+'/mongochat', function( err, db ) {
       _db = db;
       return callback( err );
     } );

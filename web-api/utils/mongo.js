@@ -1,26 +1,23 @@
-const MongoClient = require('mongodb').MongoClient
+var MongoClient = require( 'mongodb' ).MongoClient;
+
+var _db;
 
 module.exports = {
-    connect: async function(callback) {
-        var connection;
-        await new Promise((resolve, reject) => {
-            MongoClient.connect('mongodb://'+process.env.DB_MONGO_HOST+'/mongochat', {
-                useNewUrlParser: true
-            }, (err, database) => {
-                if (err)
-                    reject();
-                else {
-                    connection = database;
-                    resolve();
-                }
-            });
-        });
-        return connection;
-    }
+
+  connectToServer: function( callback ) {
+    MongoClient.connect( "mongodb://localhost:27017/marankings", function( err, db ) {
+      _db = db;
+      return callback( err );
+    } );
+  },
+
+  getDb: function() {
+    return _db;
+  }
 };
 
 // using
-// var mongoUtil = require( 'mongoUtil' );
-// var db = mongoUtil.getDb();
+// const mongoUtil = require( '../utils/mongo' )
+// const db = mongoUtil.getDb()
 
-// db.collection( 'users' ).find();
+// db.collection( 'users' ).find()

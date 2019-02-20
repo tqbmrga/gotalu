@@ -33,6 +33,8 @@ services:
         mode: ingress     #
     volumes:         
       - ./web-api/:/usr/src/app/
+    links:
+      - mongo 
     stdin_open: true
     tty: true
   
