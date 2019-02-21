@@ -1,5 +1,3 @@
-
-//const db = require('./config/db');
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://'+process.env.DB_MONGO_HOST;
 module.exports = {

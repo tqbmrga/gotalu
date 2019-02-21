@@ -6,7 +6,7 @@ import { Button, Form, FormGroup, Label, Input, FormFeedback, FormText } from 'r
 class Login extends Component {    
     constructor() {
         super();    
-        this.state = {person: []};
+        this.state = {chats: []};
     }
     
     componentDidMount() {
@@ -16,7 +16,7 @@ class Login extends Component {
            console.log(JSON.stringify(resData))
            //do your logic here       
            //let person = resData.results
-           this.setState({ person: resData.results }); //this is an asynchronous function
+           this.setState({ chats: resData.results }); //this is an asynchronous function
         })
     }
     
@@ -25,8 +25,8 @@ class Login extends Component {
       return(
       <div>
         { 
-          this.state.person.map((personRecord) => {
-            return <div> {personRecord.name.first} </div>
+          this.state.chats.map((chatRecord) => {
+            return <div> {chatRecord.name} </div>
           })
         }
       </div>

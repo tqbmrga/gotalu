@@ -1,8 +1,10 @@
-'use strict';
 module.exports = function(app) {
-  let productsCtrl = require('./controllers/ProductsController');
-
+  let productsCtrl = require('./controllers/ProductsController'),
+  tokenCtrl = require('./controllers/token');
   //check token
+  app.route('/token')
+    .get(tokenCtrl.get);
+    //.post(tokenCtrl.store);
 
   // todoList Routes
   app.route('/products')
