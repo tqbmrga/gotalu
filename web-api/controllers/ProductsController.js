@@ -12,8 +12,7 @@ module.exports = {
           console.log(result);
           res.json({"results":result})
           db.close();
-        });
-       
+        });       
       });
         //let sql = 'SELECT * FROM products'
         // db.query(sql, (err, response) => {
