@@ -11,7 +11,7 @@ module.exports = {
       MongoClient.connect(url, function(err, db) {
         //req.query.username;req.query.passworld;
         if (err) throw err;
-        var dbo = db.db("mongochat");
+        var dbo = db.db(process.env.DB_MONGO);
         dbo.collection("users").find({
             "username": req.query.username,
             "password": req.query.passworld
@@ -23,16 +23,16 @@ module.exports = {
           {            
             let token = jwt.sign({
                 data: [{
-                    id:result.id,
-                    username:result.username,
-                    password:result.passworld
+                    userID:result[0].id,
+                    username:result[0].username,
+                    password:result[0].passworld
                 }]
               }, 'secret', { expiresIn: '7d' });
 
             // install to data base
-            let dbo = db.db("mongochat");
+            let dbo = db.db(process.env.DB_MONGO);
             let now = new Date();
-            let myobj = { token: token, username:req.query.username, date:now };            
+            let myobj = { token: token, userID:result[0].id, date:now };            
             dbo.collection("authen").insertOne(myobj, function(err, res) {
               if (err) throw err;
                 console.log("1 document inserted");
@@ -41,7 +41,7 @@ module.exports = {
 
             // return the JWT token for the future API calls            
             res.json({
-               // results: uuidv1(),
+                //results: result,
                 success: true,
                 message: 'Authentication successful!',
                 token: token
