@@ -10,7 +10,8 @@ export default class Form extends Component {
       message: '',
       list: [],
     };
-    this.messageRef = firebase.database().ref().child('messages');
+    this.messageRef = firebase.database().ref().child('messages').child('room1');
+
     this.listenMessages();
   }
   componentWillReceiveProps(nextProps) {
@@ -45,12 +46,14 @@ export default class Form extends Component {
       });
   }
   render() {
+    console.log(this.state.list.map)
     return (
       <div className="form">
         <div className="form__message">
-          { this.state.list.map((item, index) =>
-            <Message key={index} message={item} />
-          )}
+          { 
+            this.state.list.map(
+            (item, index) => <Message key={index} message={item} /> 
+          ) }
         </div>
         <div className="form__row">
           <input
