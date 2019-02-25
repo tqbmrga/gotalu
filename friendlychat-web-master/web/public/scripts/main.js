@@ -51,10 +51,12 @@ function isUserSignedIn() {
 
 // Saves a new message on the Cloud Firestore.
 function saveMessage(messageText) {
+  let roomID = document.getElementById('roomID').value;
   // Add a new message entry to the Firebase database.
   return firebase.firestore().collection('messages').add({
     name: getUserName(),
     text: messageText,
+    room: roomID,
     profilePicUrl: getProfilePicUrl(),
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).catch(function(error) {
@@ -64,8 +66,11 @@ function saveMessage(messageText) {
 
 // Loads chat messages history and listens for upcoming ones.
 function loadMessages() {
+  let roomID = document.getElementById('roomID').value;  
   // Create the query to load the last 12 messages and listen for new ones.
-  var query = firebase.firestore().collection('messages').orderBy('timestamp', 'desc').limit(12);
+  // .where("room", "==", roomID)
+  //var query = firebase.firestore().collection('messages').where("room", "=", "123").orderBy('timestamp', 'desc').limit(12);
+  var query = firebase.firestore().collection('messages').where("room", '==', roomID).limit(12);
   
   // Start listening to the query.
   query.onSnapshot(function(snapshot) {
@@ -357,5 +362,13 @@ var firestore = firebase.firestore();
 var settings = {timestampsInSnapshots: true};
 firestore.settings(settings);
 
-// We load currently existing chat messages and listen to new ones.
-loadMessages();
+
+
+var getRoom = function(roomID){ 
+  document.getElementById('roomID').value = roomID;  
+  // We load currently existing chat messages and listen to new ones.
+  document.getElementById('messages').innerHTML="";
+  loadMessages();
+};
+
+
