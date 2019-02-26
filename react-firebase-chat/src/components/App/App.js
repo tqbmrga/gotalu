@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import Router from '../Router/Router.js';
 //import logo from '../../images/logo.svg';
 import './App.css';
-import Form from '../Form/Form.js';
+
 import firebase from 'firebase';
 import firebaseConfig from '../../config';
 firebase.initializeApp(firebaseConfig);
@@ -25,10 +26,13 @@ class App extends Component {
     firebase.auth().signOut();
   }
   render() {
+    //const demovalue ="demo";
+    // console.log('app.js');
+    // console.log(demovalue);
     return (
       <div className="app">
-        <div className="app__header">
-          {/* <img src={logo} className="app__logo" alt="logo" /> */}
+        {/* <div className="app__header">
+          <img src={logo} className="app__logo" alt="logo" />
           <h2>
             SIMPLE APP WITH REACT
           </h2>
@@ -47,9 +51,9 @@ class App extends Component {
               Logout
             </button>
           )}
-        </div>
+        </div> */}
         <div className="app__list">
-          <Form user={this.state.user} />
+          <Router/>                 
         </div>
       </div>
     );

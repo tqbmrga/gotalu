@@ -2,22 +2,28 @@ import React, { Component } from 'react';
 import './Form.css';
 import Message from '../Message/Message';
 import firebase from 'firebase';
+
 export default class Form extends Component {
-  constructor(props) {
+  constructor(props) {    
     super(props);
     this.state = {
-      userName: 'Sebastian',
+      room: props.params.room,
+      userName: props.params.userName,
+      key:props.params.key,
       message: '',
       list: [],
     };
-    this.messageRef = firebase.database().ref().child('messages').child('room1');
-
+    console.log(this.state)
+    this.messageRef = firebase.database().ref().child('messages').child(props.params.room);
     this.listenMessages();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.user) {
-      this.setState({'userName': nextProps.user.displayName});
-    }
+    console.log(nextProps)
+    // if(nextProps.user) {
+    //   this.setState({'userName': nextProps.user.displayName});
+    // }
+    this.messageRef = firebase.database().ref().child('messages').child(nextProps.params.room);
+    this.listenMessages();
   }
   handleChange(event) {
     this.setState({message: event.target.value});
@@ -36,19 +42,24 @@ export default class Form extends Component {
     if (event.key !== 'Enter') return;
     this.handleSend();
   }
-  listenMessages() {
+  listenMessages() {   
     this.messageRef
       .limitToLast(10)
-      .on('value', message => {
+      .on('value', message => {        
+        let msg = '';
+        if(message.val()!=null)
+        {
+          msg = message.val();
+        }
         this.setState({
-          list: Object.values(message.val()),
+          list: Object.values(msg),
         });
       });
   }
-  render() {
-    console.log(this.state.list.map)
-    return (
+  render() {    
+    return (      
       <div className="form">
+      
         <div className="form__message">
           { 
             this.state.list.map(
@@ -71,6 +82,7 @@ export default class Form extends Component {
             send
           </button>
         </div>
+        <div> </div>
       </div>
     );
   }
