@@ -12,13 +12,11 @@ export default class Form extends Component {
       key:props.params.key,
       message: '',
       list: [],
-    };
-    console.log(this.state)
+    };    
     this.messageRef = firebase.database().ref().child('messages').child(props.params.room);
     this.listenMessages();
   }
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
+  componentWillReceiveProps(nextProps) {  
     // if(nextProps.user) {
     //   this.setState({'userName': nextProps.user.displayName});
     // }
@@ -45,7 +43,7 @@ export default class Form extends Component {
   listenMessages() {   
     this.messageRef
       .limitToLast(10)
-      .on('value', message => {        
+      .on('value', message => {
         let msg = '';
         if(message.val()!=null)
         {
