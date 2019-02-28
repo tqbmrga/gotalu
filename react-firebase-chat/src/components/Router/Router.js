@@ -28,40 +28,64 @@ const ParamsExample = () => (
   </Router>
 );
 
-let Child = ({ match }) => (
+var Child = ({ match }) => (
   <div>
     {/* <h3>room: {match.params.room}</h3> */}
     <Form params={match.params} />
   </div>
 );
 
-let RoomList = function (){
-  let roomlistRef = firebase.database().ref().child('roomlist').child('baoat1ts');
-  roomlistRef.on("value", function(snapshot){
-    
-    // console.log('RoomList');
-    // console.log(snapshot.val());
-    // let list = snapshot.val()
-    // list.map((anObjectMapped, index) =>{
-    //   console.log(index);
-    // })
+var RoomList = () => {  
 
-    let data = [
-      {
-         created: '2017-02-21T09:50:21.441815Z',
-         duration: 1575,
-         final_script: 'some script',
-         language: 'en-GB',
-         rating: 2,
-         url: 'some url',
-          }
-      ];
-    console.log(data);
-    //console.log(JSON.parse(snapshot.val()));
-    data.map((anObjectMapped, index) => console.log(index))
-  });
+  let rootRef = firebase.database().ref()
+  let ref = rootRef.child('roomlist').child('baoat1ts')
+  let htmlRes = [];
+  ref.once("value").then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      let key = childSnapshot.key
+      //let childData = childSnapshot.val()
+      htmlRes.push(<div>Column {key}</div>)
+      // console.log(key)
+      // console.log(childData)
+    })
+    // console.log('snapshot.val()')
+    // console.log(snapshot.val())
+  })
   
+    // const elements = ['one', 'two', 'three'];
+  
+    // const items = []
+  
+    // for (const [index, value] of elements.entries()) {
+    //   items.push(<li key={index}>{value}</li>)
+    // }
+  
+    return (
+      <div>
+        {htmlRes}
+      </div>
+    )
 }
+
+  // let rootRef = firebase.database().ref()
+  // let ref = rootRef.child('roomlist').child('baoat1ts')
+  // let htmlRes = [];
+  // ref.once("value").then(function(snapshot) {
+  //   snapshot.forEach(function(childSnapshot) {
+  //     let key = childSnapshot.key
+  //     //let childData = childSnapshot.val()
+  //     htmlRes.push(<div>Column {key}</div>)
+  //     // console.log(key)
+  //     // console.log(childData)
+  //   })
+  //   console.log('snapshot.val()')
+  //   console.log(snapshot.val())
+  // })
+ 
+  // console.log('htmlRes')
+  // console.log(htmlRes)
+  // return (htmlRes)
+  //render() { }
 
 
 
