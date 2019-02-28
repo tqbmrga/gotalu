@@ -14,7 +14,7 @@ class App extends Component {
   }
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({ user });
+      this.setState({user});
     });
   }
   handleSignIn() {
@@ -28,6 +28,9 @@ class App extends Component {
     //const demovalue ="demo";
     // console.log('app.js');
     // console.log(demovalue);
+    let rootRef = firebase.database().ref()
+    let chatList = rootRef.child('roomlist').child('baoat1ts')
+
     return (
       <div className="app">
         {/* <div className="app__header">

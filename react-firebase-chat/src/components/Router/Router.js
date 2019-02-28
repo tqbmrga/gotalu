@@ -29,8 +29,7 @@ const ParamsExample = () => (
 );
 
 var Child = ({ match }) => (
-  <div>
-    {/* <h3>room: {match.params.room}</h3> */}
+  <div>    
     <Form params={match.params} />
   </div>
 );
@@ -60,11 +59,7 @@ var RoomList = () => {
     //   items.push(<li key={index}>{value}</li>)
     // }
   
-    return (
-      <div>
-        {htmlRes}
-      </div>
-    )
+    return (htmlRes)
 }
 
   // let rootRef = firebase.database().ref()
