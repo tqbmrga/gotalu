@@ -6,7 +6,7 @@ import firebase from 'firebase';
 const ParamsExample = () => (
   <Router>
     <div>
-      <h2>Room List { RoomList() } </h2>
+      <h2>Room List <ChatList /> </h2>
       <ul>
         <li>
           <Link to="/r/room1/tqbmrga/123456">room1</Link>
@@ -26,7 +26,9 @@ const ParamsExample = () => (
 
     </div>
   </Router>
-);
+)
+
+export default ParamsExample;
 
 var Child = ({ match }) => (
   <div>    
@@ -34,54 +36,72 @@ var Child = ({ match }) => (
   </div>
 );
 
-var RoomList = () => {  
+// class GroupName extends React.Component {
+//   render() {
+//     return <div>{this.props.name}</div>;
+//   }
+// }
 
-  let rootRef = firebase.database().ref()
-  let ref = rootRef.child('roomlist').child('baoat1ts')
-  let htmlRes = [];
-  ref.once("value").then(function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      let key = childSnapshot.key
-      //let childData = childSnapshot.val()
-      htmlRes.push(<div>Column {key}</div>)
-      // console.log(key)
-      // console.log(childData)
-    })
-    // console.log('snapshot.val()')
-    // console.log(snapshot.val())
-  })
-  
-    // const elements = ['one', 'two', 'three'];
-  
-    // const items = []
-  
-    // for (const [index, value] of elements.entries()) {
-    //   items.push(<li key={index}>{value}</li>)
-    // }
-  
-    return (htmlRes)
+class ChatList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      htmlRes: []
+      };
+  }
+  componentDidlMount () {
+    alert('component just finished mounting!');
+  }
+  componentWillMount() {
+   
+    let rootRef = firebase.database().ref()
+    let ref = rootRef.child('roomlist').child('baoat1ts')
+    let data = []
+    var query = ref.orderByKey();
+    
+    query.once("value")
+      .then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          // key will be "ada" the first time and "alan" the second time
+          let key = childSnapshot.key
+          //this.state.htmlRes.push(<div>{key}</div>)
+          data.push(<div>{key}</div>)
+          
+          //htmlRes.push(<GroupName name={key} />)
+          // childData will be the actual contents of the child
+          //var childData = childSnapshot.val()
+          
+      });
+    });     
+    
+    this.state.htmlRes=data
+    console.log(data);
+    //this.state.htmlRes.push(<div>demo</div>)
+    //console.log(this.state.htmlRes)
+
+    // this.setState({
+    //   htmlRes: htmlRes
+    // });
+
+  }
+  render() {   
+    var links = [
+      { endpoint: '/america' },
+      { endpoint: '/canada' },
+      { endpoint: '/norway' },
+      { endpoint: '/bahamas' }
+    ];
+    const listItems = links.map((link) =>
+        <li key={link.endpoint}>{link.endpoint}</li> 
+    );
+    return (
+      <div className="navigation">
+        <ul>
+          {this.state.htmlRes}
+          {listItems}
+        </ul>
+      </div>
+    );
+  }
 }
 
-  // let rootRef = firebase.database().ref()
-  // let ref = rootRef.child('roomlist').child('baoat1ts')
-  // let htmlRes = [];
-  // ref.once("value").then(function(snapshot) {
-  //   snapshot.forEach(function(childSnapshot) {
-  //     let key = childSnapshot.key
-  //     //let childData = childSnapshot.val()
-  //     htmlRes.push(<div>Column {key}</div>)
-  //     // console.log(key)
-  //     // console.log(childData)
-  //   })
-  //   console.log('snapshot.val()')
-  //   console.log(snapshot.val())
-  // })
- 
-  // console.log('htmlRes')
-  // console.log(htmlRes)
-  // return (htmlRes)
-  //render() { }
-
-
-
-export default ParamsExample;

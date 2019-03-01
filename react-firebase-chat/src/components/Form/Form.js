@@ -13,8 +13,9 @@ export default class Form extends Component {
       message: '',
       list: [],
     };    
-    this.messageRef = firebase.database().ref().child('messages').child(props.params.room);
-    this.listenMessages();
+    // this.messageRef = firebase.database().ref().child('messages').child(props.params.room);
+    // this.listenMessages();
+    //console.log(this.state)
   }
   componentWillReceiveProps(nextProps) {  
     // if(nextProps.user) {
