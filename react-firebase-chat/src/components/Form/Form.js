@@ -12,15 +12,9 @@ export default class Form extends Component {
       key:props.params.key,
       message: '',
       list: [],
-    };    
-    // this.messageRef = firebase.database().ref().child('messages').child(props.params.room);
-    // this.listenMessages();
-    //console.log(this.state)
+    };      
   }
-  componentWillReceiveProps(nextProps) {  
-    // if(nextProps.user) {
-    //   this.setState({'userName': nextProps.user.displayName});
-    // }
+  componentWillReceiveProps(nextProps) {    
     this.messageRef = firebase.database().ref().child('messages').child(nextProps.params.room);
     this.listenMessages();
   }
@@ -61,9 +55,8 @@ export default class Form extends Component {
       
         <div className="form__message">
           { 
-            this.state.list.map(
-            (item, index) => <Message key={index} message={item} /> 
-          ) }
+            this.state.list.map((item, index) => <Message key={index} message={item} /> ) 
+          }
         </div>
         <div className="form__row">
           <input
