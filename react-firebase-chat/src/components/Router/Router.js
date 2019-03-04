@@ -9,7 +9,7 @@ export default class MainRouter extends React.Component {
     this.state = {
       dataChatlist : [],
       dataChatRoom : []
-    }    
+    }
   }
   componentWillMount() {  
     let ref = firebase.database().ref('roomlist/baoat1ts')    
@@ -27,21 +27,15 @@ export default class MainRouter extends React.Component {
       });
     })
   } 
-  render() {        
+  render() {
     return (
       <Router>
         <div>
           <h2>
-          {
-            //call tới class ChatList
-            //truyền biến dataChatRoom qua sau đó loop tiếp.
-            this.state.dataChatlist.map(
-              (name, i) => 
-              <ul key={i}>{name}
-                <li>room1</li>
-                <li>room2</li>
-              </ul>
-            )           
+          {           
+            this.state.dataChatlist.map((name, i) => 
+              <ChatList key={i} name={name}/>
+            )
           }
           </h2>
           <ul>
@@ -58,20 +52,26 @@ export default class MainRouter extends React.Component {
               <Link to="/r/room4/tqbmrga/123456">room4</Link>
             </li>
           </ul>
-
           <Route path="/r/:room/:userName/:key" component={Child} />
-
         </div>
       </Router>
     );
   }
-
 }
-
-
 
 var Child = ({ match }) => (
   <div>    
     <Form params={match.params} />
   </div>
 );
+
+var ChatList = function(props) {
+  return (
+    <div>
+      <ul key={props.i}>{props.name}
+        <li>room1</li>
+        <li>room2</li>
+      </ul>
+    </div>
+  )
+}

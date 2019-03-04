@@ -25,12 +25,6 @@ class App extends Component {
     firebase.auth().signOut();
   }
   render() {
-    //const demovalue ="demo";
-    // console.log('app.js');
-    // console.log(demovalue);
-    //let rootRef = firebase.database().ref()
-    //let chatList = rootRef.child('roomlist').child('baoat1ts')
-
     return (
       <div className="app">
         {/* <div className="app__header">
