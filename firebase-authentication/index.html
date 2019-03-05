@@ -1,0 +1,200 @@
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+<script>
+  var config = {
+    apiKey: "AIzaSyAqXCluATPscHI8jmK_zaREVboAnnwaiig",
+    authDomain: "service-chat-call.firebaseapp.com",
+    databaseURL: "https://service-chat-call.firebaseio.com",
+    projectId: "service-chat-call",
+    storageBucket: "service-chat-call.appspot.com",
+    messagingSenderId: "418608382471"
+  };
+  firebase.initializeApp(config);
+</script>  
+<script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />  
+
+<body>
+    <div id="container">
+      <h3>Authentication via Gmail/Phone number</h3>
+      <div id="loading">Loading...</div>
+      <div id="loaded" class="hidden">
+        <div id="main">
+          <div id="user-signed-in" class="hidden">
+            <div id="user-info">
+              <div id="phone"></div>
+              <div class="clearfix"></div>
+            </div>
+            <p>
+              <button id="sign-out">Sign Out</button>
+            </p>
+          </div>
+          <div id="user-signed-out" class="hidden">
+            <div id="firebaseui-spa">
+              <h3>App:</h3>
+              <div id="firebaseui-container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+</body>
+
+<script>
+function getUiConfig() {
+  return {
+    'callbacks': {
+      'signInSuccess': function(user, credential, redirectUrl) {
+        handleSignedInUser(user);
+        return false;
+      }
+    },
+    'signInFlow': 'popup',
+    'signInOptions': [
+	
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    {
+          provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+          recaptchaParameters: {
+            type: 'image', 
+            size: 'invisible',
+            badge: 'bottomleft' 
+          },
+          defaultCountry: 'VN', 
+          defaultNationalNumber: '1234567890',
+          loginHint: '+11234567890'
+    }
+        ],
+    'tosUrl': 'https://www.google.com'
+  };
+}
+
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+var handleSignedInUser = function(user) {
+  document.getElementById('user-signed-in').style.display = 'block';
+  document.getElementById('user-signed-out').style.display = 'none';
+  document.getElementById('phone').textContent = user.phoneNumber;
+  
+  let res = [];
+  res.status = true;
+  res.uid = user.uid;
+  res.user = user.email;
+  res.u = user.u;
+  console.log(res)
+};
+
+var handleSignedOutUser = function() {
+  document.getElementById('user-signed-in').style.display = 'none';
+  document.getElementById('user-signed-out').style.display = 'block';
+  ui.start('#firebaseui-container', getUiConfig());
+};
+
+firebase.auth().onAuthStateChanged(function(user) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('loaded').style.display = 'block';
+  user ? handleSignedInUser(user) : handleSignedOutUser();
+ 
+  let res = [];
+  res.status = true;
+  res.uid = user.uid;
+  res.user = user.email;
+  res.u = user.u;
+  console.log(res)
+});
+
+var initApp = function() {
+  document.getElementById('sign-out').addEventListener('click', function() {
+    firebase.auth().signOut();
+  });
+};
+
+window.addEventListener('load', initApp);
+
+var createUserWithEmailAndPassword = function (email,password) {
+  // create 
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then(function(data) {
+    // Handle successes here
+    let res = [];
+    res.status = true;
+    res.uid = data.user.uid;
+    res.user = data.user.email;
+    res.u = data.user.u;
+    //console.log(res);
+  })
+  .catch(function(error) {
+    // Handle Errors here.    
+    let res = [];   
+    res.status = false;
+    res.code = error.code;
+    res.message = error.message;
+    //console.log(res);
+  });  
+}
+
+//sign
+var signInWithEmailAndPassword = function (email,password) {
+  firebase.auth().signInWithEmailAndPassword(email, password).then(function(data){
+    // Handle successes here
+    let res = [];
+    res.status = true;
+    res.uid = data.user.uid;
+    res.user = data.user.email;
+    res.u = data.user.u;
+    //console.log(res);
+  }).catch(function(error) {
+    // Handle Errors here.    
+    let res = [];   
+    res.status = false;
+    res.code = error.code;
+    res.message = error.message;
+    //console.log(res);
+  });
+}
+
+
+var signOut = function () {
+  firebase.auth().signOut();
+}
+// createUserWithEmailAndPassword('baoat1ts@gmail.com','123456ABC');
+// signInWithEmailAndPassword('baoat1ts@gmail.com','123456ABC');
+
+// var signInWithPopup = function (email){
+//   var provider = new firebase.auth.GoogleAuthProvider();
+//   provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+//   firebase.auth().languageCode = 'pt';
+//   provider.setCustomParameters({
+//     'login_hint': email
+//   });
+//   firebase.auth().signInWithPopup(provider).then(function(result) {  
+//     if (result.credential) {
+//       // This gives you a Google Access Token. You can use it to access the Google API.
+//       var token = result.credential.accessToken;
+//       // ...
+//     }
+//     // The signed-in user info.
+//     var user = result.user;
+//     // ...
+//     // Handle successes here
+//     let res = [];
+//     res.status = true;
+//     res.token = result.credential.accessToken;
+//     res.user = result.user.email;
+//     res.uid = result.user.uid;
+//     res.u = result.user.u;
+//     console.log(res);
+//   }).catch(function(error) {
+//     // Handle Errors here.
+//     var errorCode = error.code;
+//     var errorMessage = error.message;
+//     // The email of the user's account used.
+//     var email = error.email;
+//     // The firebase.auth.AuthCredential type that was used.
+//     var credential = error.credential;
+//     // ...
+//     console.log(error);
+//   });
+// }
+
+</script>
