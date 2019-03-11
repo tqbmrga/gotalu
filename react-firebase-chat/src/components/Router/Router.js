@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Form from '../Form/Form.js';
+import ChatListLayout from '../ChatListLayout/ChatListLayout.js';
 import firebase from 'firebase';
 
 export default class MainRouter extends React.Component {
@@ -25,6 +26,8 @@ export default class MainRouter extends React.Component {
         dataChatlist: dataChatlist,
         dataChatRoom: dataChatRoom
       });
+      //console.log(dataChatlist)
+      //console.log(dataChatRoom)
     })
   } 
   render() {
@@ -32,27 +35,11 @@ export default class MainRouter extends React.Component {
       <Router>
         <div>
           <h2>
-          {           
-            this.state.dataChatlist.map((name, i) => 
-              <ChatList key={i} name={name}/>
-            )
-          }
+              demo
           </h2>
-          <ul>
-            <li>
-              <Link to="/r/room1/tqbmrga/123456">room1</Link>
-            </li>
-            <li>
-              <Link to="/r/room2/tqbmrga/123456">room2</Link>
-            </li>
-            <li>
-              <Link to="/r/room3/tqbmrga/123456">room3</Link>
-            </li>
-            <li>
-              <Link to="/r/room4/tqbmrga/123456">room4</Link>
-            </li>
-          </ul>
-          <Route path="/r/:room/:userName/:key" component={Child} />
+          <Route path="/r/:room/:userName/:userKey" component={ChildChatListLayout} />
+
+          <Route path="/r/:room/:userName/:userKey" component={Child} />
         </div>
       </Router>
     );
@@ -65,13 +52,9 @@ var Child = ({ match }) => (
   </div>
 );
 
-var ChatList = function(props) {
-  return (
-    <div>
-      <ul key={props.i}>{props.name}
-        <li>room1</li>
-        <li>room2</li>
-      </ul>
-    </div>
-  )
-}
+var ChildChatListLayout = ({ match }) => (
+  <div>    
+    <ChatListLayout params={match.params} />
+  </div>
+);
+

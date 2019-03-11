@@ -9,7 +9,7 @@ export default class Form extends Component {
     this.state = {
       room: props.params.room,
       userName: props.params.userName,
-      key:props.params.key,
+      userKey:props.params.userKey,
       message: '',
       list: [],
     };      
