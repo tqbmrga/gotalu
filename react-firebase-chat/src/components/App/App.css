@@ -1,4 +1,4 @@
-.app {
+ .app {
     text-align: center;
   }
   .app__logo {
@@ -7,7 +7,7 @@
   }
   .app__header {
     background-color: #222;
-    padding: 20px;
+    /* padding: 20px; */
     color: white;
   }
   .app__intro {
@@ -15,14 +15,14 @@
   }
   .app__list {
     width: 100%;
-    max-width: 600px;
-    padding: 20px;
+    /* max-width: 600px; */
+    /* padding: 20px; */
     margin: 0 auto;
   }
   .app__button {
     border: 0;
     border-radius: 0;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
     color: black;
     background-color: white;
     cursor: pointer;
@@ -35,4 +35,4 @@
   @keyframes App-logo-spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
-  }
+  } 

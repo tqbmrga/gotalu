@@ -1,6 +1,7 @@
 import React from "react";
 import firebase from 'firebase';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import "./ChatListLayout.css";
 
 export default class ChatListLayout extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ export default class ChatListLayout extends React.Component {
       }
     }
     componentWillMount() {  
-      let ref = firebase.database().ref('roomlist/baoat1ts')    
+      let ref = firebase.database().ref('roomlist/'+this.state.userName)
       var query = ref.orderByKey();    
       query.once("value").then((snapshot) =>{   
         let dataChatlist = []
@@ -45,26 +46,35 @@ export default class ChatListLayout extends React.Component {
 
 var ChatList = (props) => { 
     return (    
-        <ul>{props.name}    
-        {<ChatListNameRoom userName={props.userName} userKey={props.userKey} dataRoom={props.dataRoom} />}       
-        </ul>    
+        <div class="chatList">
+            <div>{props.name}</div>
+            {<ChatListNameRoom userName={props.userName} userKey={props.userKey} dataRoom={props.dataRoom} />}      
+        </div>    
     )
 }
 
 var ChatListNameRoom = (props)=>{ 
+    //console.log(props.dataRoom[0].room1)
     return(  
-            Object.keys(props.dataRoom[0]).map((name, i) => 
-                <NameRoom userName={props.userName} userKey={props.userKey} name={name}/>
+            Object.keys(props.dataRoom[0]).map((name, i) =>                 
+                <NameRoom 
+                userName={props.userName} 
+                userKey={props.userKey} 
+                room={name} 
+                roomData={props.dataRoom[0]}
+                />
             )
     )
 }
 
 var NameRoom = (props) => {
-    let url = "/r/"+props.name+"/"+props.userName+"/"+props.userKey
-    return (
-      <li>
-        <Link to={url}>{props.name}</Link>
-      </li>   
+   let room = props.room
+    let url = "/r/"+props.room+"/"+props.userName+"/"+props.userKey
+    //let chatTo = Object.keys(props.roomData);  
+    return ( 
+        <div> 
+            <Link to={url}>{props.roomData[room].nameRoom}</Link>  
+        </div>       
     )
   }
   

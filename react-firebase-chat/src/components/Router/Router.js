@@ -1,8 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Form from '../Form/Form.js';
 import ChatListLayout from '../ChatListLayout/ChatListLayout.js';
 import firebase from 'firebase';
+
+import { Col,Container,Row } from 'react-bootstrap';
+
 
 export default class MainRouter extends React.Component {
   constructor(props) {
@@ -31,30 +34,29 @@ export default class MainRouter extends React.Component {
     })
   } 
   render() {
-    return (
-      <Router>
-        <div>
-          <h2>
-              demo
-          </h2>
-          <Route path="/r/:room/:userName/:userKey" component={ChildChatListLayout} />
-
-          <Route path="/r/:room/:userName/:userKey" component={Child} />
-        </div>
+    return (      
+      <Router>          
+          <Container>
+          <div> APP </div>
+              <Row>
+                <Col sm={2}>
+                  <Route path="/r/:room/:userName/:userKey" component={ChildChatListLayout} /> 
+                </Col>    
+                <Col sm={10}>
+                  <Route path="/r/:room/:userName/:userKey" component={Child} />
+                </Col>   
+              </Row>              
+          </Container>        
       </Router>
     );
   }
 }
 
-var Child = ({ match }) => (
-  <div>    
-    <Form params={match.params} />
-  </div>
+var Child = ({ match }) => (      
+      <Form params={match.params} />     
 );
 
-var ChildChatListLayout = ({ match }) => (
-  <div>    
-    <ChatListLayout params={match.params} />
-  </div>
+var ChildChatListLayout = ({ match }) => (      
+      <ChatListLayout params={match.params} />   
 );
 
