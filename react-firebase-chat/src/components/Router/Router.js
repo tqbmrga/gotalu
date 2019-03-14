@@ -40,10 +40,10 @@ export default class MainRouter extends React.Component {
           <div> APP </div>
               <Row>
                 <Col sm={2}>
-                  <Route path="/r/:room/:userName/:userKey" component={ChildChatListLayout} /> 
+                  <Route path="/r/:room/:userID/:userKey" component={ChildChatListLayout} /> 
                 </Col>    
                 <Col sm={10}>
-                  <Route path="/r/:room/:userName/:userKey" component={Child} />
+                  <Route path="/r/:room/:userID/:userKey" component={Child} />
                 </Col>   
               </Row>              
           </Container>        

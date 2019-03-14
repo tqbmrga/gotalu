@@ -9,35 +9,34 @@ export default class ChatListLayout extends React.Component {
       this.state = {
         dataChatlist : [],
         dataChatRoom : [],
-        userName: props.params.userName,
+        userID: props.params.userID,
         userKey:props.params.userKey,
       }
     }
     componentWillMount() {  
-      let ref = firebase.database().ref('roomlist/'+this.state.userName)
-      var query = ref.orderByKey();    
-      query.once("value").then((snapshot) =>{   
-        let dataChatlist = []
+      let ref = firebase.database().ref('roomlist/'+this.state.userID)      
+      var query = ref.orderByKey()       
+      query.once("value").then((snapshot) =>{  
         let dataChatRoom = []
         snapshot.forEach(function(childSnapshot) {
-          dataChatlist.push([childSnapshot.key])  
           dataChatRoom.push([childSnapshot.val()])
         })
-        this.setState({
-          dataChatlist: dataChatlist,
+        this.setState({          
           dataChatRoom: dataChatRoom
-        });
-        //console.log(dataChatlist)
-        //console.log(dataChatRoom)
+        });      
       })
     } 
     render() {
       return (
         <div>
-            {         
-                this.state.dataChatlist.map((name, i) => 
-                <ChatList i={i} name={name} userName={this.state.userName} userKey={this.state.userKey} dataRoom={this.state.dataChatRoom[i]}/>
-                )
+            {   
+              this.state.dataChatRoom.map((data,i)=>
+                  <ChatList i={i} 
+                  data={data}
+                  userID={this.state.userID} 
+                  userKey={this.state.userKey}
+                  />
+                )                 
             }
         </div>
       )
@@ -45,36 +44,10 @@ export default class ChatListLayout extends React.Component {
 }
 
 var ChatList = (props) => { 
-    return (    
-        <div class="chatList">
-            <div>{props.name}</div>
-            {<ChatListNameRoom userName={props.userName} userKey={props.userKey} dataRoom={props.dataRoom} />}      
-        </div>    
-    )
+    let url = "/r/"+props.data[0].roomID+"/"+props.userID+"/"+props.userKey
+  return (    
+      <div class="chatListItem">              
+          <Link to={url}>{props.data[0].nameRoom}</Link>    
+      </div>    
+  )
 }
-
-var ChatListNameRoom = (props)=>{ 
-    //console.log(props.dataRoom[0].room1)
-    return(  
-            Object.keys(props.dataRoom[0]).map((name, i) =>                 
-                <NameRoom 
-                userName={props.userName} 
-                userKey={props.userKey} 
-                room={name} 
-                roomData={props.dataRoom[0]}
-                />
-            )
-    )
-}
-
-var NameRoom = (props) => {
-   let room = props.room
-    let url = "/r/"+props.room+"/"+props.userName+"/"+props.userKey
-    //let chatTo = Object.keys(props.roomData);  
-    return ( 
-        <div> 
-            <Link to={url}>{props.roomData[room].nameRoom}</Link>  
-        </div>       
-    )
-  }
-  

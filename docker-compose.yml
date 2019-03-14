@@ -19,46 +19,63 @@ services:
   #   stdin_open: true
   #   tty: true
 
-  web-api:
-    container_name: web-api
+  # web-api:
+  #   container_name: web-api
+  #   build:
+  #     context: ./web-api/
+  #     dockerfile: Dockerfile
+  #   networks:
+  #      - overlay
+  #   ports:
+  #     - target: 3000      # port in contaner
+  #       published: 8001   # port in local
+  #       protocol: tcp     #
+  #       mode: ingress     #
+  #   volumes:         
+  #     - ./web-api/:/usr/src/app/
+  #   links:
+  #     - mongo 
+  #   stdin_open: true
+  #   tty: true
+  
+  # mongochat:
+  #   container_name: mongochat    
+  #   build:
+  #     context: ./mongochat/
+  #     dockerfile: Dockerfile    
+  #   networks:
+  #     - overlay
+  #   ports:
+  #     - "4000:4000"
+  #   volumes:         
+  #     - ./mongochat/:/usr/src/app/
+  #   links:
+  #     - mongo    
+  #   stdin_open: true
+  #   tty: true
+
+  # mongo:
+  #   container_name: mongo
+  #   image: mongo
+  #   ports:
+  #     - '27017:27017'
+
+  firebase-php-examples-master:
+    container_name: firebase-php-examples-master
     build:
-      context: ./web-api/
+      context: ./firebase-php-examples-master/
       dockerfile: Dockerfile
     networks:
        - overlay
     ports:
-      - target: 3000      # port in contaner
-        published: 8001   # port in local
+      - target: 80        # port in contaner
+        published: 88     # port in local
         protocol: tcp     #
         mode: ingress     #
     volumes:         
-      - ./web-api/:/usr/src/app/
-    links:
-      - mongo 
+      - ./firebase-php-examples-master/:/var/www/html/
     stdin_open: true
     tty: true
-  
-  mongochat:
-    container_name: mongochat    
-    build:
-      context: ./mongochat/
-      dockerfile: Dockerfile    
-    networks:
-      - overlay
-    ports:
-      - "4000:4000"
-    volumes:         
-      - ./mongochat/:/usr/src/app/
-    links:
-      - mongo    
-    stdin_open: true
-    tty: true
-
-  mongo:
-    container_name: mongo
-    image: mongo
-    ports:
-      - '27017:27017'
       
   # Database management in a single PHP file
   # https://www.adminer.org/

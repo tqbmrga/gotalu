@@ -3,18 +3,29 @@ import './Form.css';
 import Message from '../Message/Message';
 import firebase from 'firebase';
 
-export default class Form extends Component {
+export default class Form extends Component {  
   constructor(props) {    
     super(props);
     this.state = {
       room: props.params.room,
-      userName: props.params.userName,
+      userID: props.params.userID,
       userKey:props.params.userKey,
+      userName: '',
       message: '',
       list: [],
-    };      
+    };
   }
-  componentWillReceiveProps(nextProps) {    
+  componentDidMount() {
+    var self = this;
+    let resData = firebase.database().ref('users').child(this.state.userID)
+    resData.on('value', function(snapshot) {   
+      let resUserName = snapshot.val().name
+      self.setState({
+        userName: resUserName
+      })
+    })    
+  }
+  componentWillReceiveProps(nextProps) {       
     this.messageRef = firebase.database().ref().child('messages').child(nextProps.params.room);
     this.listenMessages();
   }
@@ -22,7 +33,7 @@ export default class Form extends Component {
     this.setState({message: event.target.value});
   }
   handleSend() {
-    if (this.state.message) {
+    if (this.state.message) {    
       var newItem = {
         userName: this.state.userName,
         message: this.state.message,
