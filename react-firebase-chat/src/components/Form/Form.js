@@ -16,12 +16,15 @@ export default class Form extends Component {
     };
   }
   componentDidMount() {
-    var self = this;
-    let resData = firebase.database().ref('users').child(this.state.userID)
-    resData.on('value', function(snapshot) {   
-      let resUserName = snapshot.val().name
-      self.setState({
-        userName: resUserName
+    let self = this;    
+    let userID = parseInt(self.state.userID)
+    let resData = firebase.database().ref('users').orderByChild('id').equalTo(userID)
+    resData.on("value", function(snapshot) {      
+      snapshot.forEach(function(data) {        
+        let resUserName = data.val().name
+        self.setState({
+          userName: resUserName
+        })
       })
     })    
   }
@@ -65,9 +68,7 @@ export default class Form extends Component {
       <div className="form">
       
         <div className="form__message">
-          { 
-            this.state.list.map((item, index) => <Message key={index} message={item} /> ) 
-          }
+          { this.state.list.map((item, index) => <Message key={index} message={item} /> ) }
         </div>
         <div className="form__row">
           <input
